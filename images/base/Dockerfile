@@ -12,6 +12,9 @@ LABEL com.github.containers.toolbox="true" \
 
 COPY README.md /README-base.md
 
+RUN dnf install 'dnf-command(config-manager)'
+RUN dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+
 COPY extra-packages /
 RUN dnf -y install $(<extra-packages)
 RUN rm /extra-packages
