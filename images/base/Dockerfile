@@ -16,4 +16,6 @@ COPY extra-packages /
 RUN dnf -y install $(<extra-packages)
 RUN rm /extra-packages
 
+ENV LC_ALL=en_US.UTF-8
+
 RUN dnf clean all
