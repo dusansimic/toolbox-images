@@ -13,7 +13,7 @@ env:
   IMAGE_NAME: node
 
 jobs:
-  node:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
@@ -32,7 +32,6 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=latest
             type=match,pattern=(\d+),group=1,value=38
       - name: Build and push image
         uses: docker/build-push-action@v4

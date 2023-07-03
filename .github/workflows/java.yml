@@ -1,15 +1,16 @@
-name: Base image
+name: Java image
 
 on:
   push:
     branches: [main]
     paths:
-      - .github/workflows/base.yml
-      - images/base/**
+      - .github/workflows/java.yml
+      - images/java/**
+  workflow_call:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: base
+  IMAGE_NAME: java
 
 jobs:
   build:
@@ -41,9 +42,3 @@ jobs:
           no-cache: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-  node:
-    needs: base
-    uses: ./.github/workflows/node.yml
-  java:
-    needs: base
-    uses: ./.github/workflows/java.yml

@@ -1,8 +1,7 @@
-FROM docker.io/dusansimic/toolbox-base:37
+FROM ghcr.io/dusansimic/toolbox-images/base:38
 
-ENV NAME=toolbox-meson VERSION=37
+ENV NAME=ansible-toolbox VERSION=38
 LABEL com.github.containers.toolbox="true" \
-			com.github.dusansimic.toolbox="true" \
 			com.redhat.component="$NAME" \
 			name="$NAME" \
 			version="$VERSION" \
