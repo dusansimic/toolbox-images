@@ -43,5 +43,5 @@ jobs:
           tags: |
             ${{ steps.meta.outputs.tags }}
   node:
-    needs: node
+    needs: base
     uses: ./.github/workflows/node.yml
