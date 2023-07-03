@@ -1,8 +1,7 @@
-FROM registry.fedoraproject.org/fedora-toolbox:37
+FROM registry.fedoraproject.org/fedora-toolbox:38
 
-ENV NAME=toolbox-base VERSION=37
+ENV NAME=base-toolbox VERSION=38
 LABEL com.github.containers.toolbox="true" \
-			com.github.dusansimic.toolbox="true" \
       com.redhat.component="$NAME" \
       name="$NAME" \
       version="$VERSION" \
