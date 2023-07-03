@@ -42,11 +42,11 @@ jobs:
           tags: |
             ${{ steps.meta.outputs.tags }}
   node:
-    needs: base
+    needs: build
     uses: ./.github/workflows/node.yml
   java:
-    needs: base
+    needs: build
     uses: ./.github/workflows/java.yml
   ansible:
-    needs: base
+    needs: build
     uses: ./.github/workflows/ansible.yml
