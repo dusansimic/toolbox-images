@@ -1,15 +1,16 @@
-name: Base image
+name: Fedora packager image
 
 on:
   push:
     branches: [main]
     paths:
-      - .github/workflows/base.yml
-      - images/base/**
+      - .github/workflows/fedora-packager.yml
+      - images/fedora-packager/**
+  workflow_call:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: base
+  IMAGE_NAME: fedora-packager
 
 jobs:
   build:
@@ -41,15 +42,3 @@ jobs:
           no-cache: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-  node:
-    needs: build
-    uses: ./.github/workflows/node.yml
-  java:
-    needs: build
-    uses: ./.github/workflows/java.yml
-  ansible:
-    needs: build
-    uses: ./.github/workflows/ansible.yml
-  fedora-packager:
-    needs: build
-    uses: ./.github/workflows/fedora-packager.yml
