@@ -1,15 +1,16 @@
-name: Base image
+name: RStudio image
 
 on:
   push:
     branches: [main]
     paths:
-      - .github/workflows/base.yml
-      - images/base/**
+      - .github/workflows/rstudio.yml
+      - images/rstudio/**
+  workflow_call:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: base
+  IMAGE_NAME: rstudio
 
 jobs:
   build:
@@ -36,23 +37,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./images/${{ env.IMAGE_NAME }}
-          file: ./images/${{ env.IMAGE_NAME }}/Dockerfile
+          file: ./images/${{ env.IMAGE_NAME }}/Containerfile
           push: true
           no-cache: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-  node:
-    needs: build
-    uses: ./.github/workflows/node.yml
-  java:
-    needs: build
-    uses: ./.github/workflows/java.yml
-  ansible:
-    needs: build
-    uses: ./.github/workflows/ansible.yml
-  fedora-packager:
-    needs: build
-    uses: ./.github/workflows/fedora-packager.yml
-  rstudio:
-    needs: build
-    uses: ./.github/workflows/rstudio.yml
