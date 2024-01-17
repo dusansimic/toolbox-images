@@ -32,7 +32,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=match,pattern=(\d+),group=1,value=38
+            type=match,pattern=(\d+),group=1,value=39
       - name: Build and push image
         uses: docker/build-push-action@v4
         with:
