@@ -18,10 +18,10 @@ COPY extra-packages /
 RUN dnf -y install $(<extra-packages)
 RUN rm /extra-packages
 
-RUN mkdir /opt/oha
-ADD https://github.com/hatoo/oha/releases/download/v0.5.9/oha-linux-amd64 /opt/oha/oha
+RUN mkdir -p /opt/oha/bin
+ADD https://github.com/hatoo/oha/releases/download/v0.5.9/oha-linux-amd64 /opt/oha/bin/oha
 RUN chmod +x /opt/oha/oha
-RUN ln -s /opt/oha/oha /usr/bin/oha
+ENV PATH="${PATH}:/opt/oha/bin"
 
 ADD https://github.com/bootandy/dust/releases/download/v0.8.6/dust-v0.8.6-x86_64-unknown-linux-gnu.tar.gz /tmp/dust.tar.gz
 RUN mkdir /tmp/dust
@@ -31,6 +31,11 @@ RUN mv /tmp/dust/dust /opt/dust/dust
 RUN chmod +x /opt/dust/dust
 RUN ln -s /opt/dust/dust /usr/bin/dust
 RUN rm -rf /tmp/dust /tmp/dust.tar.gz
+
+RUN mkdir -p /opt/translitrs/bin
+ADD https://github.com/filiparag/translitRS/releases/download/0.2.2/translitrs-0.2.2-gnu_linux-x86_64 /opt/translitrs/bin/translitrs
+RUN chmod +x /opt/translitrs/bin/translitrs
+ENV PATH="${PATH}:/opt/translitrs/bin"
 
 ENV LC_ALL=en_US.UTF-8
 
