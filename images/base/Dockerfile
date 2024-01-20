@@ -19,10 +19,8 @@ RUN dnf -y install $(<extra-packages)
 RUN rm /extra-packages
 
 COPY swap-packages /
-RUN while IFS= read -r line \
-      do \
-      dnf -y swap $line \
-      done
+RUN while IFS= read -r line; do dnf -y swap $line; done < swap-packages
+RUN rm /swap-packages
 
 RUN mkdir -p /opt/oha/bin
 ADD https://github.com/hatoo/oha/releases/download/v0.5.9/oha-linux-amd64 /opt/oha/bin/oha
