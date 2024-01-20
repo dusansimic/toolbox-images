@@ -20,17 +20,17 @@ RUN rm /extra-packages
 
 RUN mkdir -p /opt/oha/bin
 ADD https://github.com/hatoo/oha/releases/download/v0.5.9/oha-linux-amd64 /opt/oha/bin/oha
-RUN chmod +x /opt/oha/oha
+RUN chmod +x /opt/oha/bin/oha
 ENV PATH="${PATH}:/opt/oha/bin"
 
 ADD https://github.com/bootandy/dust/releases/download/v0.8.6/dust-v0.8.6-x86_64-unknown-linux-gnu.tar.gz /tmp/dust.tar.gz
 RUN mkdir /tmp/dust
 RUN tar -xf /tmp/dust.tar.gz -C /tmp/dust --strip-components=1
-RUN mkdir /opt/dust
-RUN mv /tmp/dust/dust /opt/dust/dust
-RUN chmod +x /opt/dust/dust
-RUN ln -s /opt/dust/dust /usr/bin/dust
+RUN mkdir -p /opt/dust/bin
+RUN mv /tmp/dust/dust /opt/dust/bin/dust
+RUN chmod +x /opt/dust/bin/dust
 RUN rm -rf /tmp/dust /tmp/dust.tar.gz
+ENV PATH="${PATH}:/opt/dust/bin"
 
 RUN mkdir -p /opt/translitrs/bin
 ADD https://github.com/filiparag/translitRS/releases/download/0.2.2/translitrs-0.2.2-gnu_linux-x86_64 /opt/translitrs/bin/translitrs
