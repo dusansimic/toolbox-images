@@ -26,6 +26,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build image
         uses: redhat-actions/buildah-build@v2
+        id: build-image
         with:
           image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           tags: 39 latest
