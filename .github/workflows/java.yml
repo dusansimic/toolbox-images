@@ -30,6 +30,8 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           tags: 39 latest
           containerfiles: images/java/Containerfile
+          context: images/java
+          oci: true
       - name: Push image
         uses: redhat-actions/push-to-registry@v2
         with:

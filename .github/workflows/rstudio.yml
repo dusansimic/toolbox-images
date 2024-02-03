@@ -29,7 +29,9 @@ jobs:
         with:
           image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           tags: 39 latest
-          containerfiles: images/ansible/Containerfile
+          containerfiles: images/rstudio/Containerfile
+          context: images/rstudio
+          oci: true
       - name: Push image
         uses: redhat-actions/push-to-registry@v2
         with:
