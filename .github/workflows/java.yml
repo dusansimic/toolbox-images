@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v3
+      - name: Setup cosign
+        uses: sigstore/cosign-installer@v3.3.0
       - name: Login to container registry
         uses: redhat-actions/podman-login@v1
         with:
@@ -26,7 +28,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build image
         uses: redhat-actions/buildah-build@v2
-        id: build-image
+        id: build
         with:
           image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           tags: 39 latest
@@ -35,7 +37,10 @@ jobs:
           oci: true
       - name: Push image
         uses: redhat-actions/push-to-registry@v2
+        id: push
         with:
-          image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tags }}
+          image: ${{ steps.build.outputs.image }}
+          tags: ${{ steps.build.outputs.tags }}
           registry: ${{ env.REGISTRY }}
+      - name: Sign image
+        run: cosign sign -y --recursive --key env://COSIGN_PRIVATE_KEY ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}@${{ steps.push.outputs.digest }}
