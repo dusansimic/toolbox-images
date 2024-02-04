@@ -32,8 +32,8 @@ jobs:
         with:
           image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           tags: 39 latest
-          containerfiles: images/fedora-packages/Containerfile
-          context: images/fedora-packages
+          containerfiles: images/fedora-packager/Containerfile
+          context: images/fedora-packager
           oci: true
       - name: Push image
         uses: redhat-actions/push-to-registry@v2
