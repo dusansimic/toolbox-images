@@ -17,8 +17,8 @@ jobs:
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v3
-      # - name: Setup cosign
-      #   uses: sigstore/cosign-installer@v3.3.0
+      - name: Setup cosign
+        uses: sigstore/cosign-installer@v3.3.0
       - name: Login to container registry
         uses: redhat-actions/podman-login@v1
         with:
@@ -41,12 +41,12 @@ jobs:
           image: ${{ steps.build.outputs.image }}
           tags: ${{ steps.build.outputs.tags }}
           registry: ${{ env.REGISTRY }}
-      # - name: Sign image
-      #   run: cosign sign -y --recursive --key env://COSIGN_PRIVATE_KEY ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}@${{ steps.push.outputs.digest }}
-      #   env:
-      #     COSIGN_EXPERIMENTAL: false
-      #     COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-      #     COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+      - name: Sign image
+        run: cosign sign -y --recursive --key env://COSIGN_PRIVATE_KEY ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}@${{ steps.push.outputs.digest }}
+        env:
+          COSIGN_EXPERIMENTAL: false
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
   node:
     needs: build
     uses: ./.github/workflows/node.yml
