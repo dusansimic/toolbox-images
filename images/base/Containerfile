@@ -24,8 +24,6 @@ COPY swap-packages /
 RUN while IFS= read -r line; do dnf -y swap $line; done < swap-packages
 RUN rm /swap-packages
 
-RUN cosign completion fish > /etc/fish/completions/cosign.fish
-
 RUN mkdir -p /opt/oha/bin
 ADD https://github.com/hatoo/oha/releases/download/v1.4.4/oha-linux-amd64 /opt/oha/bin/oha
 RUN chmod +x /opt/oha/bin/oha
