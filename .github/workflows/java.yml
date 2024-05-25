@@ -7,6 +7,7 @@ on:
       - .github/workflows/java.yml
       - images/java/**
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   build:

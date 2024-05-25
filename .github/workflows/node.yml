@@ -7,6 +7,7 @@ on:
       - .github/workflows/node.yml
       - images/node/**
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   build:
