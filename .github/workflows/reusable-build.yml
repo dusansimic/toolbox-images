@@ -45,6 +45,8 @@ jobs:
           containerfiles: ${{ inputs.containerfile-path }}/Containerfile
           context: ${{ inputs.context-path }}
           oci: true
+          build-args: |
+            IMAGE_TAG=${{ inputs.image-tag }}
       - name: Push image
         uses: redhat-actions/push-to-registry@v2
         id: push
