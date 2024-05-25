@@ -40,7 +40,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         id: build
         with:
-          image: ${{ env.REGISTRY }}/${{ inputs.image-name }}
+          image: ${{ inputs.image-name }}
           tags: ${{ inputs.image-tag }} latest
           containerfiles: ${{ inputs.containerfile-path }}/Containerfile
           context: ${{ inputs.context-path }}
