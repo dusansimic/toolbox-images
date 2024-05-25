@@ -6,45 +6,15 @@ on:
     paths:
       - .github/workflows/fedora-packager.yml
       - images/fedora-packager/**
-  workflow_call:
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: fedora-packager
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v3
-      # - name: Setup cosign
-      #   uses: sigstore/cosign-installer@v3.3.0
-      - name: Login to container registry
-        uses: redhat-actions/podman-login@v1
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build image
-        uses: redhat-actions/buildah-build@v2
-        id: build
-        with:
-          image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
-          tags: 39 latest
-          containerfiles: images/fedora-packager/Containerfile
-          context: images/fedora-packager
-          oci: true
-      - name: Push image
-        uses: redhat-actions/push-to-registry@v2
-        id: push
-        with:
-          image: ${{ steps.build.outputs.image }}
-          tags: ${{ steps.build.outputs.tags }}
-          registry: ${{ env.REGISTRY }}
-      # - name: Sign image
-      #   run: cosign sign -y --recursive --key env://COSIGN_PRIVATE_KEY ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}@${{ steps.push.outputs.digest }}
-      #   env:
-      #     COSIGN_EXPERIMENTAL: false
-      #     COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-      #     COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+    name: Build Fedora packager image
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image-name: fedora-packager
+      image-tag: "40"
+      containerfile-path: images/fedora-packager
+      context-path: images/fedora-packager

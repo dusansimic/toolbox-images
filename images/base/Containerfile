@@ -1,6 +1,8 @@
-FROM registry.fedoraproject.org/fedora-toolbox:39
+ARG IMAGE_TAG
+FROM registry.fedoraproject.org/fedora-toolbox:${IMAGE_TAG}
 
-ENV NAME=base-toolbox VERSION=39
+ARG IMAGE_TAG
+ENV NAME=base-toolbox VERSION=${IMAGE_TAG}
 LABEL com.github.containers.toolbox="true" \
       com.redhat.component="$NAME" \
       name="$NAME" \
@@ -25,11 +27,11 @@ RUN rm /swap-packages
 RUN cosign completion fish > /etc/fish/completions/cosign.fish
 
 RUN mkdir -p /opt/oha/bin
-ADD https://github.com/hatoo/oha/releases/download/v0.5.9/oha-linux-amd64 /opt/oha/bin/oha
+ADD https://github.com/hatoo/oha/releases/download/v1.4.4/oha-linux-amd64 /opt/oha/bin/oha
 RUN chmod +x /opt/oha/bin/oha
 ENV PATH="${PATH}:/opt/oha/bin"
 
-ADD https://github.com/bootandy/dust/releases/download/v0.8.6/dust-v0.8.6-x86_64-unknown-linux-gnu.tar.gz /tmp/dust.tar.gz
+ADD https://github.com/bootandy/dust/releases/download/v1.0.0/dust-v1.0.0-x86_64-unknown-linux-gnu.tar.gz /tmp/dust.tar.gz
 RUN mkdir /tmp/dust
 RUN tar -xf /tmp/dust.tar.gz -C /tmp/dust --strip-components=1
 RUN mkdir -p /opt/dust/bin

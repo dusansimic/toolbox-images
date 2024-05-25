@@ -6,47 +6,18 @@ on:
     paths:
       - .github/workflows/base.yml
       - images/base/**
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: base
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v3
-      - name: Setup cosign
-        uses: sigstore/cosign-installer@v3.3.0
-      - name: Login to container registry
-        uses: redhat-actions/podman-login@v1
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build image
-        uses: redhat-actions/buildah-build@v2
-        id: build
-        with:
-          image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
-          tags: 39 latest
-          containerfiles: images/base/Containerfile
-          context: images/base
-          oci: true
-      - name: Push image
-        uses: redhat-actions/push-to-registry@v2
-        id: push
-        with:
-          image: ${{ steps.build.outputs.image }}
-          tags: ${{ steps.build.outputs.tags }}
-          registry: ${{ env.REGISTRY }}
-      - name: Sign image
-        run: cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}@${{ steps.push.outputs.digest }}
-        env:
-          COSIGN_EXPERIMENTAL: false
-          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+    name: Build Base image
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image-name: base
+      image-tag: "40"
+      containerfile-path: images/base
+      context-path: images/base
   node:
     needs: build
     uses: ./.github/workflows/node.yml

@@ -1,6 +1,8 @@
-FROM ghcr.io/dusansimic/toolbox-images/base:39
+ARG IMAGE_TAG
+FROM ghcr.io/dusansimic/toolbox-images/base:${IMAGE_TAG}
 
-ENV NAME=rstudio-toolbox VERSION=39
+ARG IMAGE_TAG
+ENV NAME=rstudio-toolbox VERSION=${IMAGE_TAG}
 LABEL com.github.containers.toolbox="true" \
   com.redhat.component="$NAME" \
   name="$NAME" \

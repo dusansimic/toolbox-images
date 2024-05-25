@@ -1,39 +1,49 @@
-name: Ansible image
+name: Reusable build
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/ansible.yml
-      - images/ansible/**
   workflow_call:
+    inputs:
+      image-name:
+        description: Name of the image to be built
+        required: true
+        type: string
+      image-tag:
+        description: Tag of the base image (will be used for the built image)
+        required: true
+        type: string
+      containerfile-path:
+        description: Path to the Containerfile
+        required: true
+        type: string
+      context-path:
+        description: Path to the build context
+        required: true
+        type: string
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ansible
+  REGISTRY: ghcr.io/${{ github.repository }}
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # - name: Setup cosign
       #   uses: sigstore/cosign-installer@v3.3.0
       - name: Login to container registry
         uses: redhat-actions/podman-login@v1
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build image
         uses: redhat-actions/buildah-build@v2
         id: build
         with:
-          image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
-          tags: 39 latest
-          containerfiles: images/ansible/Containerfile
-          context: images/ansible
+          image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ inputs.image-name }}
+          tags: ${{ inputs.image-tag }} latest
+          containerfiles: ${{ inputs.containerfile-path }}/Containerfile
+          context: ${{ inputs.context-path }}
           oci: true
       - name: Push image
         uses: redhat-actions/push-to-registry@v2
