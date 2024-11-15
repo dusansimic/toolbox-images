@@ -16,6 +16,6 @@ jobs:
     secrets: inherit
     with:
       image-name: node
-      image-tag: "40"
+      image-tag: "41"
       containerfile-path: images/node
       context-path: images/node

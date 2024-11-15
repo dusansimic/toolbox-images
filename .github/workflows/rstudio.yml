@@ -16,6 +16,6 @@ jobs:
     secrets: inherit
     with:
       image-name: rstudio
-      image-tag: "40"
+      image-tag: "41"
       containerfile-path: images/rstudio
       context-path: images/rstudio

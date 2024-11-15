@@ -16,6 +16,6 @@ jobs:
     secrets: inherit
     with:
       image-name: fedora-packager
-      image-tag: "40"
+      image-tag: "41"
       containerfile-path: images/fedora-packager
       context-path: images/fedora-packager
