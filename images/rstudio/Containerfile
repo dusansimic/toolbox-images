@@ -13,11 +13,11 @@ LABEL com.github.containers.toolbox="true" \
 
 COPY README.md /README-rstudio.md
 
-RUN dnf-3 -y install 'dnf-command(copr)'
-RUN dnf-3 copr enable -y iucar/cran
+RUN dnf -y install 'dnf-command(copr)'
+RUN dnf copr enable -y iucar/cran
 
 COPY extra-packages /
-RUN dnf-3 -y install $(<extra-packages)
+RUN dnf -y install $(<extra-packages)
 RUN rm /extra-packages
 
 RUN dnf clean all

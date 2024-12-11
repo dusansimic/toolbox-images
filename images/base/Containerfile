@@ -13,15 +13,15 @@ LABEL com.github.containers.toolbox="true" \
 
 COPY README.md /README-base.md
 
-RUN dnf-3 -y install 'dnf-command(config-manager)'
-RUN dnf-3 config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+RUN dnf -y install 'dnf-command(config-manager)'
+RUN dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
 
 COPY extra-packages /
-RUN dnf-3 -y install $(<extra-packages)
+RUN dnf -y install $(<extra-packages)
 RUN rm /extra-packages
 
 COPY swap-packages /
-RUN while IFS= read -r line; do dnf-3 -y swap $line; done < swap-packages
+RUN while IFS= read -r line; do dnf -y swap $line; done < swap-packages
 RUN rm /swap-packages
 
 RUN mkdir -p /opt/oha/bin
@@ -45,4 +45,4 @@ ENV PATH="${PATH}:/opt/translitrs/bin"
 
 ENV LC_ALL=en_US.UTF-8
 
-RUN dnf-3 clean all
+RUN dnf clean all

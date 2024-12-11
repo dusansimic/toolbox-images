@@ -14,7 +14,7 @@ LABEL com.github.containers.toolbox="true" \
 COPY README.md /README-fedora-packager.md
 
 COPY extra-packages /
-RUN dnf-3 -y install $(<extra-packages)
+RUN dnf -y install $(<extra-packages)
 RUN rm /extra-packages
 
 RUN dnf clean all
