@@ -21,6 +21,6 @@ jobs:
   java:
     needs: build
     uses: ./.github/workflows/java.yml
-  fedora-packager:
-    needs: build
-    uses: ./.github/workflows/fedora-packager.yml
+  # fedora-packager:
+  #   needs: build
+  #   uses: ./.github/workflows/fedora-packager.yml

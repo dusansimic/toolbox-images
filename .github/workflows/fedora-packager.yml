@@ -1,21 +1,21 @@
-name: Fedora packager image
+# name: Fedora packager image
 
-on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/fedora-packager.yml
-      - images/fedora-packager/**
-  workflow_dispatch:
-  workflow_call:
+# on:
+#   push:
+#     branches: [main]
+#     paths:
+#       - .github/workflows/fedora-packager.yml
+#       - images/fedora-packager/**
+#   workflow_dispatch:
+#   workflow_call:
 
-jobs:
-  build:
-    name: Build Fedora packager image
-    uses: ./.github/workflows/reusable-build.yml
-    secrets: inherit
-    with:
-      image-name: fedora-packager
-      image-tag: "41"
-      containerfile-path: images/fedora-packager
-      context-path: images/fedora-packager
+# jobs:
+#   build:
+#     name: Build Fedora packager image
+#     uses: ./.github/workflows/reusable-build.yml
+#     secrets: inherit
+#     with:
+#       image-name: fedora-packager
+#       image-tag: "41"
+#       containerfile-path: images/fedora-packager
+#       context-path: images/fedora-packager
