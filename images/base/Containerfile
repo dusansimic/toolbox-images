@@ -14,7 +14,9 @@ LABEL com.github.containers.toolbox="true" \
 COPY README.md /README-base.md
 
 RUN curl -O --output-dir /etc/yum.repos.d/ -L https://cli.github.com/packages/rpm/gh-cli.repo
-RUN dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra42' terra-release
+RUN \
+      dnf -y install https://repos.fyralabs.com/terra42/terra-release-0%3A42-4.noarch.rpm && \
+      dnf -y install https://repos.fyralabs.com/terra42/terra-release-extras-0%3A42-4.noarch.rpm
 
 COPY extra-packages /
 RUN dnf -y install $(<extra-packages)
