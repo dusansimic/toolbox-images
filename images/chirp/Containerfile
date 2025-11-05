@@ -1,0 +1,32 @@
+ARG IMAGE_TAG
+FROM ghcr.io/dusansimic/toolbox-images/base:${IMAGE_TAG}
+
+ARG IMAGE_TAG
+ENV NAME=chirp-toolbox VERSION=${IMAGE_TAG}
+LABEL com.github.containers.toolbox="true" \
+  com.redhat.component="$NAME" \
+  name="$NAME" \
+  version="$VERSION" \
+  usage="This image is meant to be used with the toolbox command" \
+  summary="Chirp image for my personal Fedora toolbox containers" \
+  maintainer="Dušan Simić <dusan.simic1810@gmail.com>"
+
+COPY README.md /README-chirp.md
+
+# Install extra packages
+COPY extra-packages /
+RUN dnf -y install $(<extra-packages)
+RUN rm /extra-packages
+
+
+# Install Chirp
+ARG CHIRP_VERSION=20251031
+RUN \
+  wget -O /tmp/chirp.whl https://archive.chirpmyradio.com/chirp_next/next-${CHIRP_VERSION}/chirp-${CHIRP_VERSION}-py3-none-any.whl && \
+  python -m pip install /tmp/chirp.whl && \
+  rm /tmp/chirp.whl
+
+# Clean up
+RUN \
+  pip cache purge && \
+  dnf clean all
