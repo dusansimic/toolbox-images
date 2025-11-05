@@ -21,6 +21,9 @@ jobs:
   java:
     needs: build
     uses: ./.github/workflows/java.yml
+  chirp:
+    needs: build
+    uses: ./.github/workflows/chirp.yml
   # fedora-packager:
   #   needs: build
   #   uses: ./.github/workflows/fedora-packager.yml

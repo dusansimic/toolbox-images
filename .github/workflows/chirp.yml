@@ -1,0 +1,21 @@
+name: Chirp image
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/chirp.yml
+      - images/chirp/**
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build Chirp image
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image-name: chirp
+      image-tag: "42"
+      containerfile-path: images/chirp
+      context-path: images/chirp
