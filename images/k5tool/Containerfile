@@ -23,10 +23,12 @@ RUN rm /extra-packages
 ARG K5TOOL_VERSION=1.8
 RUN \
   curl -L --retry 3 -A "Mozilla/5.0" -o /tmp/K5TOOL.zip https://github.com/qrp73/K5TOOL/releases/download/v${K5TOOL_VERSION}/K5TOOL-v${K5TOOL_VERSION}.zip && \
-  unzip /tmp/K5TOOL.zip -d /opt/k5tool && \
-  rm /tmp/K5TOOL.zip && \
-  ln -s /opt/k5tool/k5tool /usr/bin/k5tool
+  unzip /tmp/K5TOOL.zip -d /tmp/k5tool && \
+  mv /tmp/k5tool/k5tool /usr/bin/k5tool && \
+  mv /tmp/k5tool/K5TOOL.exe /usr/bin/K5TOOL.exe
 
 # Clean up
 RUN \
+  rm /tmp/K5TOOL.zip && \
+  rm -rf /tmp/k5tool && \
   dnf clean all
