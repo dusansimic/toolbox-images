@@ -24,6 +24,9 @@ jobs:
   chirp:
     needs: build
     uses: ./.github/workflows/chirp.yml
+  k5tool:
+    needs: build
+    uses: ./.github/workflows/k5tool.yml
   # fedora-packager:
   #   needs: build
   #   uses: ./.github/workflows/fedora-packager.yml

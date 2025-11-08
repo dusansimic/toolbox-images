@@ -1,0 +1,21 @@
+name: K5Tool image
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/k5tool.yml
+      - images/k5tool/**
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build K5Tool image
+    uses: ./.github/workflows/reusable-build.yml
+    secrets: inherit
+    with:
+      image-name: k5tool
+      image-tag: "42"
+      containerfile-path: images/k5tool
+      context-path: images/k5tool

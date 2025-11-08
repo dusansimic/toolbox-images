@@ -1,0 +1,32 @@
+ARG IMAGE_TAG
+FROM ghcr.io/dusansimic/toolbox-images/base:${IMAGE_TAG}
+
+ARG IMAGE_TAG
+ENV NAME=k5tool-toolbox VERSION=${IMAGE_TAG}
+LABEL com.github.containers.toolbox="true" \
+  com.redhat.component="$NAME" \
+  name="$NAME" \
+  version="$VERSION" \
+  usage="This image is meant to be used with the toolbox command" \
+  summary="K5Tool image for my personal Fedora toolbox containers" \
+  maintainer="Dušan Simić <dusan.simic1810@gmail.com>"
+
+COPY README.md /README-k5tool.md
+
+# Install extra packages
+COPY extra-packages /
+RUN dnf -y install $(<extra-packages)
+RUN rm /extra-packages
+
+
+# Install K5Tool
+ARG K5TOOL_VERSION=1.8
+RUN \
+  curl -L --retry 3 -A "Mozilla/5.0" -o /tmp/K5TOOL.zip https://github.com/qrp73/K5TOOL/releases/download/v${K5TOOL_VERSION}/K5TOOL-v${K5TOOL_VERSION}.zip && \
+  unzip /tmp/K5TOOL.zip -d /opt/k5tool && \
+  rm /tmp/K5TOOL.zip && \
+  ln -s /opt/k5tool/k5tool /usr/bin/k5tool
+
+# Clean up
+RUN \
+  dnf clean all
